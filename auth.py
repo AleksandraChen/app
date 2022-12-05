@@ -4,7 +4,7 @@ from app import db, bcrypt
 from flask_login import login_user, login_required, logout_user
 
 
-auth = Blueprint('auth', __name__)
+auth = Blueprint('auth', name)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -13,7 +13,7 @@ def login():
     if form.validate_on_submit():
         user = Users.query.filter_by(username=form.username.data).first()
         if user:
-            if bcrypt.generate_password_hash(form.password.data):
+            if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for('views.success'))
     return render_template('login.html', form=form)
