@@ -6,10 +6,11 @@ from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+DB_NAME = "database.db"
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(name)
     app.config['SECRET_KEY'] = '0eeff27f9c89ab975e01c1eb5aeef5148b1810e9b690a77bedd94a261b3d9b98'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://flask:Passw0rd!@postgres:5432/flask'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -24,6 +25,8 @@ def create_app():
 
     from models import Users
 
+    create_database(app)
+
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
@@ -35,6 +38,14 @@ def create_app():
     return app
 
 
-if __name__ == '__main__':
+def create_database(app):
+    if not path.exists(DB_NAME):
+        db.create_all(app=app)
+        print('Created Database!')
+
+
+if name == 'main':
     app = create_app()
     app.run(host='0.0.0.0')
+22:38
+
