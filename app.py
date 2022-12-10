@@ -44,6 +44,6 @@ def create_database(app):
         print('Created Database!')
 
 
-if name == 'main':
+if name == '__main__':
     app = create_app()
     app.run(host='0.0.0.0')
