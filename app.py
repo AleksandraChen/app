@@ -47,5 +47,3 @@ def create_database(app):
 if name == 'main':
     app = create_app()
     app.run(host='0.0.0.0')
-22:38
-
