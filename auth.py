@@ -4,7 +4,7 @@ from app import db, bcrypt
 from flask_login import login_user, login_required, logout_user
 
 
-auth = Blueprint('auth', name)
+auth = Blueprint('auth', __name__)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -31,7 +31,7 @@ def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf8')
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
         new_user = Users(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
